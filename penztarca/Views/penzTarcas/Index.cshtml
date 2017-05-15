@@ -1,0 +1,44 @@
+﻿@model penztarca.Models.penzTarca
+
+@{
+    ViewBag.Title = "Pénztárca";
+}
+
+<h2>Pénztárca</h2>
+
+<p>
+    @Html.ActionLink("Manuális hozzáadás", "Create")
+</p>
+<div id="tableDiv"></div>
+<br />
+<h3><p>Gyors hozzáadás</p></h3>
+<div id="penzTarcaCreateForm">
+    @using (Ajax.BeginForm("AJAXCreate", "penzTarcas",
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    HttpMethod = "POST",
+                    UpdateTargetId = "tableDiv"
+                }
+
+                ))
+    { 
+        <div class="form-group">
+            @Html.AntiForgeryToken()
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10"  id="szoveg">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    }
+</div>
+
+
+@section Scripts {
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script> 
+        <script src="~/Custom_Scripts/BuildTable.js"></script> 
+        @Scripts.Render("~/bundles/jqueryval")
+}
+
